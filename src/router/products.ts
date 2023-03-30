@@ -1,11 +1,12 @@
 import express from 'express';
-import {deleteProduct, getAllProducts, makeProduct, updateProduct} from "../controllers/products";
-import {isAuthenticated, isOwner} from "../middlewares";
+import {deleteProduct, getAllProducts, getProduct, makeProduct, updateProduct} from "../controllers/products";
+import {isAuthenticated} from "../middlewares";
 
 
 export default (router: express.Router) => {
     router.get('/products',  getAllProducts);
-    router.delete('/products/:id', isAuthenticated, isOwner, deleteProduct);
-    router.patch('/products/:id', isAuthenticated, isOwner, updateProduct);
-    router.post('/products', makeProduct);
+    router.get('/products/:id', getProduct)
+    router.delete('/products/:id', isAuthenticated, deleteProduct);
+    router.patch('/products/:id', isAuthenticated, updateProduct);
+    router.post('/products',isAuthenticated, makeProduct);
 };
