@@ -6,7 +6,7 @@ import {isAuthenticated} from "../middlewares";
 export default (router: express.Router) => {
     router.get('/products',  getAllProducts);
     router.get('/products/:id', getProduct)
-    router.delete('/products/:id', isAuthenticated, deleteProduct);
-    router.patch('/products/:id', isAuthenticated, updateProduct);
-    router.post('/products',isAuthenticated, makeProduct);
+    router.delete('/products/:id', deleteProduct);
+    router.patch('/products/:id', updateProduct);
+    router.post('/products', makeProduct);
 };
