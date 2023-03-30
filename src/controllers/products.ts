@@ -1,6 +1,7 @@
 import express from 'express';
 
-import {deleteProductById, getProductById, getProducts} from "../db/products";
+import {createProduct, deleteProductById, getProductById, getProductByTitle, getProducts} from "../db/products";
+import {authentication, random} from "../helpers";
 
 export const getAllProducts = async (req: express.Request, res: express.Response) => {
     try {
@@ -15,7 +16,7 @@ export const getAllProducts = async (req: express.Request, res: express.Response
 
 export const deleteProduct = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const {id} = req.params;
 
         const deletedProduct = await deleteProductById(id);
 
@@ -28,8 +29,8 @@ export const deleteProduct = async (req: express.Request, res: express.Response)
 
 export const updateProduct = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
-        const { title } = req.body;
+        const {id} = req.params;
+        const {title} = req.body;
 
         if (!title) {
             return res.sendStatus(400);
@@ -39,6 +40,40 @@ export const updateProduct = async (req: express.Request, res: express.Response)
 
         product.title = title;
         await product.save();
+
+        return res.status(200).json(product).end();
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+}
+export const makeProduct = async (req: express.Request, res: express.Response): Promise<any> => {
+    debugger;
+    try {
+        const {title, price, popular, description, img} = req.body;
+
+        if (!title || !price) {
+            return res.sendStatus(400);
+        }
+
+        const existingProduct = await getProductByTitle(title);
+
+        if (existingProduct) {
+            return res.sendStatus(400);
+        }
+
+        const salt = random();
+        const product = await createProduct({
+            title,
+            price,
+            popular,
+            description,
+            img,
+            // authentication: {
+            //     salt,
+            //     password: authentication(salt, price),
+            // },
+        });
 
         return res.status(200).json(product).end();
     } catch (error) {

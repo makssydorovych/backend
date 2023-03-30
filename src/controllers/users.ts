@@ -13,7 +13,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
   }
 };
 
-export const deleteProduct = async (req: express.Request, res: express.Response) => {
+export const deleteUser = async (req: express.Request, res: express.Response) => {
   try {
     const { id } = req.params;
 

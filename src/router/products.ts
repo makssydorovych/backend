@@ -1,11 +1,11 @@
-import express, {Router} from 'express';
-import {deleteProduct, getAllProducts, updateProduct} from "../controllers/products";
+import express from 'express';
+import {deleteProduct, getAllProducts, makeProduct, updateProduct} from "../controllers/products";
 import {isAuthenticated, isOwner} from "../middlewares";
 
 
-export const productsRouter = Router({})
 export default (router: express.Router) => {
-    productsRouter.get('/', isAuthenticated, getAllProducts);
-    productsRouter.delete('/:id', isAuthenticated, isOwner, deleteProduct);
-    productsRouter.patch('/:id', isAuthenticated, isOwner, updateProduct);
+    router.get('/products',  getAllProducts);
+    router.delete('/products/:id', isAuthenticated, isOwner, deleteProduct);
+    router.patch('/products/:id', isAuthenticated, isOwner, updateProduct);
+    router.post('/products', makeProduct);
 };

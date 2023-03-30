@@ -4,14 +4,13 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import router from './router';
+
 import mongoose from 'mongoose';
-import {usersRouter} from "./router/users";
-import {productsRouter} from "./router/products";
+import router from "./router";
 
 
 const app = express();
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5005;
 app.use(cors({
   credentials: true,
 }));
@@ -19,18 +18,18 @@ app.use(cors({
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-
+//check
 const server = http.createServer(app);
-
 server.listen(port, () => {
-  console.log('Server running on http://localhost:5000/');
+  console.log(`Server running on http://localhost:${port}/`);
+  console.log(MONGO_URI)
 });
-
-const MONGO_URL = 'mongodb+srv://admin:1234@cluster0.caivk1r.mongodb.net/?retryWrites=true&w=majority';
+const MONGO_URI = "mongodb+srv://admin:1234@cluster0.caivk1r.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGO_URL);
+mongoose.connect(MONGO_URI);
 mongoose.connection.on('error', (error: Error) => console.log(error));
 
-app.use('/users', usersRouter);
-app.use('/products', productsRouter)
+app.use('/', router());
+
+
