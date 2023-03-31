@@ -4,9 +4,9 @@ import {isAuthenticated} from "../middlewares";
 
 
 export default (router: express.Router) => {
-    router.get('/products',  getAllProducts);
-    router.get('/products/:id', getProduct)
-    router.delete('/products/:id', deleteProduct);
-    router.patch('/products/:id', updateProduct);
-    router.post('/products', makeProduct);
+    router.get('/hotels',  getAllProducts);
+    router.get('/hotels/:id', getProduct)
+    router.delete('/hotels/:id', deleteProduct);
+    router.patch('/hotels/:id', updateProduct);
+    router.post('/hotels', makeProduct);
 };
